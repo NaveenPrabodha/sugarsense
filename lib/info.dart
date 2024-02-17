@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sugarsense/input.dart';
 
 class infoPage extends StatelessWidget {
   const infoPage({super.key});
@@ -73,7 +74,12 @@ class infoPage extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 15, right: 15, top: 15, bottom: 15),
               child: FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(
+                    context,
+                    MaterialPageRoute(builder: (context) => Homepage()),
+                  );
+                },
                 child: const Text('Measure another'),
               ),
             ),

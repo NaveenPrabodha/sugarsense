@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sugarsense/info.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  String beforeMeal = "";
+  String afterMeal = "";
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +24,7 @@ class Homepage extends StatelessWidget {
               child: Image.asset("lib/assets/SugarSense.png"),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 40, top: 70),
+              padding: const EdgeInsets.only(bottom: 40, top: 50),
               child: Row(
                 children: [
                   Text(
@@ -25,7 +34,7 @@ class Homepage extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
+            const Row(
               children: [
                 Expanded(
                   child: Text(
@@ -34,28 +43,46 @@ class Homepage extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 70),
+              padding: EdgeInsets.only(top: 60),
               child: TextField(
-                decoration: InputDecoration(
+                onChanged: (value) {
+                  // Update the beforeMeal variable when the text field changes
+                  setState(() {
+                    beforeMeal = value;
+                  });
+                },
+                decoration: const InputDecoration(
                   labelText: "Before Meals",
                   // hintText: 'Input',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
-              decoration: InputDecoration(
+              onChanged: (value) {
+                // Update the name variable when the text field changes
+                setState(() {
+                  afterMeal = value;
+                });
+              },
+              decoration: const InputDecoration(
                 labelText: "After Meals",
                 // hintText: 'Input',
                 border: OutlineInputBorder(),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 60),
               child: FilledButton(
-                onPressed: () {},
-                child: Text('Click to Measure'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const infoPage()),
+                  );
+                  print((beforeMeal, afterMeal));
+                },
+                child: const Text('Click to Measure'),
               ),
             ),
           ]),
