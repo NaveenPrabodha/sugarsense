@@ -1,11 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:sugarsense/input.dart';
+import 'package:sugarsense/categoryWidget.dart';
 
 class infoPage extends StatelessWidget {
-  const infoPage({super.key});
+  final String result;
+  const infoPage({super.key, required this.result});
 
   @override
   Widget build(BuildContext context) {
+    Widget widgetToShow;
+
+    switch (result) {
+      case "Normal":
+        widgetToShow = Padding(
+          padding:
+              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
+          child: CategoryWidget(
+            categoryType: 'Normal',
+            categoryInstruction:
+                "You're in the clear. Keep up the healthy habits!.",
+            categoryColor: const Color.fromARGB(255, 113, 238, 117),
+          ),
+        );
+
+        break;
+      case "Type 1":
+        widgetToShow = Padding(
+          padding:
+              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
+          child: CategoryWidget(
+            categoryType: 'Type 1',
+            categoryInstruction:
+                "Stay vigilant with management. Keep an eye on your levels.",
+            categoryColor: const Color(0xFFFDFFB3),
+          ),
+        );
+        break;
+
+      case "Type 2":
+        widgetToShow = Padding(
+          padding:
+              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
+          child: CategoryWidget(
+            categoryType: 'Type 2',
+            categoryInstruction:
+                "Take action now. Consult a professional for guidance.",
+            categoryColor: const Color(0xFFFF9E9E),
+          ),
+        );
+        break;
+      default:
+        widgetToShow = Text('No widget available');
+    }
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(5),
@@ -18,33 +65,7 @@ class infoPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 30, left: 10, right: 10, bottom: 10),
-              child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 113, 238, 117),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  width: 355,
-                  height: 150,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Type 2",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 5),
-                      Text(
-                          "Take action now. Consult a professional for guidance.",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyLarge),
-                    ],
-                  )),
-            ),
+            widgetToShow,
             const Padding(
               padding: EdgeInsets.all(15),
               child: Column(

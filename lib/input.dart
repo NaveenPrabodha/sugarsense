@@ -9,8 +9,23 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  String beforeMeal = "";
-  String afterMeal = "";
+  int beforeMeal = 0;
+  int afterMeal = 0;
+
+  String measureBloodSugarType(int beforeMeal, int afterMeal) {
+    if (beforeMeal >= 70 && beforeMeal <= 100 && afterMeal < 140) {
+      return "Normal";
+    } else if (beforeMeal >= 100 &&
+        beforeMeal <= 125 &&
+        afterMeal >= 140 &&
+        afterMeal <= 199) {
+      return "Type 1";
+    } else if (beforeMeal > 126 && afterMeal > 200) {
+      return "Type 2";
+    } else {
+      return "Unknown";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +60,26 @@ class _HomepageState extends State<Homepage> {
             Padding(
               padding: EdgeInsets.only(top: 60),
               child: TextField(
+                keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  // Update the beforeMeal variable when the text field changes
                   setState(() {
-                    beforeMeal = value;
+                    beforeMeal = int.tryParse(value) ?? 0;
                   });
                 },
                 decoration: const InputDecoration(
                   labelText: "Before Meals",
-                  // hintText: 'Input',
+                  // hintText: 'Input'
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
             const SizedBox(height: 20),
             TextField(
+              keyboardType: TextInputType.number,
               onChanged: (value) {
                 // Update the name variable when the text field changes
                 setState(() {
-                  afterMeal = value;
+                  afterMeal = int.tryParse(value) ?? 0;
                 });
               },
               decoration: const InputDecoration(
@@ -76,11 +92,15 @@ class _HomepageState extends State<Homepage> {
               padding: const EdgeInsets.only(top: 60),
               child: FilledButton(
                 onPressed: () {
+                  String result = measureBloodSugarType(
+                    beforeMeal,
+                    afterMeal,
+                  );
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const infoPage()),
+                    MaterialPageRoute(
+                        builder: (context) => infoPage(result: result)),
                   );
-                  print((beforeMeal, afterMeal));
                 },
                 child: const Text('Click to Measure'),
               ),
