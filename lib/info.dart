@@ -4,7 +4,14 @@ import 'package:sugarsense/categoryWidget.dart';
 
 class infoPage extends StatelessWidget {
   final String result;
-  const infoPage({super.key, required this.result});
+  final int beforeMeal;
+  final int afterMeal;
+
+  const infoPage(
+      {super.key,
+      required this.result,
+      required this.beforeMeal,
+      required this.afterMeal});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +56,17 @@ class infoPage extends StatelessWidget {
           ),
         );
         break;
+      case "Unknown":
+        widgetToShow = Padding(
+          padding:
+              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
+          child: CategoryWidget(
+            categoryType: '⚠',
+            categoryInstruction:
+                "Your glucose status is currently unavailable. Please input valid data.",
+            categoryColor: Color.fromARGB(255, 199, 199, 199),
+          ),
+        );
       default:
         widgetToShow = Text('No widget available');
     }
@@ -59,18 +77,24 @@ class infoPage extends StatelessWidget {
         child: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 75, left: 10),
-              child: Text(
-                "Your Glucose Type",
-                style: Theme.of(context).textTheme.headlineSmall,
+              padding: const EdgeInsets.only(
+                top: 55,
+                bottom: 10,
+                left: 10,
               ),
+              child: Text("Your Glucose Type",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(fontWeight: FontWeight.bold)),
             ),
             widgetToShow,
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 0),
                   Text(
                     "Your Data",
                     style: TextStyle(
@@ -82,9 +106,9 @@ class infoPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Before Meal :70-100 mg/dL"),
+                      Text("Before Meal : " + beforeMeal.toString() + " mg/dL"),
                       Text(
-                        "After Meal :70-100 mg/dL",
+                        "After Meal : " + afterMeal.toString() + " mg/dL",
                       ),
                     ],
                   )

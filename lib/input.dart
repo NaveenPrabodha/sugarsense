@@ -99,7 +99,10 @@ class _HomepageState extends State<Homepage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => infoPage(result: result)),
+                        builder: (context) => infoPage(
+                            result: result,
+                            beforeMeal: beforeMeal,
+                            afterMeal: afterMeal)),
                   );
                 },
                 child: const Text('Click to Measure'),
