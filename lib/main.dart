@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sugarsense/info.dart';
 import 'package:sugarsense/input.dart';
-import 'package:sugarsense/test.dart';
-
-// import 'input.dart';
 
 void main() {
   runApp(const MyApp());
