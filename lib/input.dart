@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sugarsense/controllers/test_result_controller.dart';
 import 'package:sugarsense/info.dart';
 
 class Homepage extends StatefulWidget {
@@ -12,23 +14,9 @@ class _HomepageState extends State<Homepage> {
   int beforeMeal = 0;
   int afterMeal = 0;
 
-  String measureBloodSugarType(int beforeMeal, int afterMeal) {
-    if (beforeMeal >= 70 && beforeMeal <= 100 && afterMeal < 140) {
-      return "Normal";
-    } else if (beforeMeal >= 100 &&
-        beforeMeal <= 125 &&
-        afterMeal >= 140 &&
-        afterMeal <= 199) {
-      return "Type 1";
-    } else if (beforeMeal > 126 && afterMeal > 200) {
-      return "Type 2";
-    } else {
-      return "Unknown";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(TestResultController());
     return Scaffold(
       body: Center(
         child: Padding(
@@ -36,7 +24,7 @@ class _HomepageState extends State<Homepage> {
           child: ListView(children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 40),
-              child: Image.asset("lib/assets/SugarSense.png"),
+              child: Image.asset("assets/SugarSense.png"),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 40, top: 50),
@@ -58,7 +46,7 @@ class _HomepageState extends State<Homepage> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(top: 60),
+              padding: const EdgeInsets.only(top: 60),
               child: TextField(
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
@@ -92,18 +80,8 @@ class _HomepageState extends State<Homepage> {
               padding: const EdgeInsets.only(top: 60),
               child: FilledButton(
                 onPressed: () {
-                  String result = measureBloodSugarType(
-                    beforeMeal,
-                    afterMeal,
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => infoPage(
-                            result: result,
-                            beforeMeal: beforeMeal,
-                            afterMeal: afterMeal)),
-                  );
+                  controller.measureBloodSugarType(beforeMeal, afterMeal);
+                  Get.to(() => const InfoPage());
                 },
                 child: const Text('Click to Measure'),
               ),

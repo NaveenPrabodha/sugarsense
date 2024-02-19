@@ -1,75 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sugarsense/controllers/test_result_controller.dart';
 import 'package:sugarsense/input.dart';
-import 'package:sugarsense/categoryWidget.dart';
+import 'package:sugarsense/category_widget.dart';
 
-class infoPage extends StatelessWidget {
-  final String result;
-  final int beforeMeal;
-  final int afterMeal;
-
-  const infoPage(
-      {super.key,
-      required this.result,
-      required this.beforeMeal,
-      required this.afterMeal});
+class InfoPage extends StatelessWidget {
+  const InfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Widget widgetToShow;
-
-    switch (result) {
-      case "Normal":
-        widgetToShow = Padding(
-          padding:
-              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
-          child: CategoryWidget(
-            categoryType: 'Normal',
-            categoryInstruction:
-                "You're in the clear. Keep up the healthy habits!.",
-            categoryColor: const Color.fromARGB(255, 113, 238, 117),
-          ),
-        );
-
-        break;
-      case "Type 1":
-        widgetToShow = Padding(
-          padding:
-              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
-          child: CategoryWidget(
-            categoryType: 'Type 1',
-            categoryInstruction:
-                "Stay vigilant with management. Keep an eye on your levels.",
-            categoryColor: const Color(0xFFFDFFB3),
-          ),
-        );
-        break;
-
-      case "Type 2":
-        widgetToShow = Padding(
-          padding:
-              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
-          child: CategoryWidget(
-            categoryType: 'Type 2',
-            categoryInstruction:
-                "Take action now. Consult a professional for guidance.",
-            categoryColor: const Color(0xFFFF9E9E),
-          ),
-        );
-        break;
-      case "Unknown":
-        widgetToShow = Padding(
-          padding:
-              const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 10),
-          child: CategoryWidget(
-            categoryType: '⚠',
-            categoryInstruction:
-                "Your glucose status is currently unavailable. Please input valid data.",
-            categoryColor: Color.fromARGB(255, 199, 199, 199),
-          ),
-        );
-      default:
-        widgetToShow = Text('No widget available');
-    }
+    final controller = Get.find<TestResultController>();
 
     return Scaffold(
       body: Padding(
@@ -88,27 +28,79 @@ class infoPage extends StatelessWidget {
                       .headlineSmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
             ),
-            widgetToShow,
+            Obx(() {
+              switch (controller.testResult.value.result) {
+                case "Normal":
+                  return const Padding(
+                    padding: EdgeInsets.only(
+                        top: 30, left: 10, right: 10, bottom: 10),
+                    child: CategoryWidget(
+                      categoryType: 'Normal',
+                      categoryInstruction:
+                          "You're in the clear. Keep up the healthy habits!.",
+                      categoryColor: Color.fromARGB(255, 113, 238, 117),
+                    ),
+                  );
+
+                case "Type 1":
+                  return const Padding(
+                    padding: EdgeInsets.only(
+                        top: 30, left: 10, right: 10, bottom: 10),
+                    child: CategoryWidget(
+                      categoryType: 'Type 1',
+                      categoryInstruction:
+                          "Stay vigilant with management. Keep an eye on your levels.",
+                      categoryColor: Color(0xFFFDFFB3),
+                    ),
+                  );
+
+                case "Type 2":
+                  return const Padding(
+                    padding: EdgeInsets.only(
+                        top: 30, left: 10, right: 10, bottom: 10),
+                    child: CategoryWidget(
+                      categoryType: 'Type 2',
+                      categoryInstruction:
+                          "Take action now. Consult a professional for guidance.",
+                      categoryColor: Color(0xFFFF9E9E),
+                    ),
+                  );
+                case "Unknown":
+                  return const Padding(
+                    padding: EdgeInsets.only(
+                        top: 30, left: 10, right: 10, bottom: 10),
+                    child: CategoryWidget(
+                      categoryType: '⚠',
+                      categoryInstruction:
+                          "Your glucose status is currently unavailable. Please input valid data.",
+                      categoryColor: Color.fromARGB(255, 199, 199, 199),
+                    ),
+                  );
+                default:
+                  return const Text('No widget available');
+              }
+            }),
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 0),
-                  Text(
+                  const SizedBox(height: 0),
+                  const Text(
                     "Your Data",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Before Meal : " + beforeMeal.toString() + " mg/dL"),
+                      Obx(() => Text(
+                          "Before Meal : ${controller.testResult.value.beforeMeal} mg/dL")),
                       Text(
-                        "After Meal : " + afterMeal.toString() + " mg/dL",
+                        "After Meal : ${controller.testResult.value.afterMeal} mg/dL",
                       ),
                     ],
                   )
@@ -122,7 +114,7 @@ class infoPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(
                     context,
-                    MaterialPageRoute(builder: (context) => Homepage()),
+                    MaterialPageRoute(builder: (context) => const Homepage()),
                   );
                 },
                 child: const Text('Measure another'),
@@ -137,7 +129,7 @@ class infoPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Image.asset("lib/assets/icon1.png"),
+                  Image.asset("assets/icon1.png"),
                   const SizedBox(height: 10),
                   const Text(
                       "Maintaining a healthy glucose level is key to overall wellness. With mindful eating, regular exercise, and consistent monitoring using tools like SugarSense, you can effectively manage your blood sugar. Consult with healthcare professionals for personalized guidance."),
