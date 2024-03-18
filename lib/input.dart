@@ -3,19 +3,23 @@ import 'package:get/get.dart';
 import 'package:sugarsense/controllers/test_result_controller.dart';
 import 'package:sugarsense/info.dart';
 
+/// Homepage widget for the main screen of the app.
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  /// Constructor for the Homepage widget.
+  const Homepage({Key? key}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
+/// State class for the Homepage widget.
 class _HomepageState extends State<Homepage> {
   int beforeMeal = 0;
   int afterMeal = 0;
 
   @override
   Widget build(BuildContext context) {
+    // Initialize TestResultController using GetX.
     final controller = Get.put(TestResultController());
     return Scaffold(
       body: Center(
@@ -80,7 +84,9 @@ class _HomepageState extends State<Homepage> {
               padding: const EdgeInsets.only(top: 60),
               child: FilledButton(
                 onPressed: () {
+                  // Call measureBloodSugarType method from the controller
                   controller.measureBloodSugarType(beforeMeal, afterMeal);
+                  // Navigate to InfoPage
                   Get.to(() => const InfoPage());
                 },
                 child: const Text('Click to Measure'),
@@ -92,5 +98,6 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
+  // Example method
   Container newMethod() => Container();
 }

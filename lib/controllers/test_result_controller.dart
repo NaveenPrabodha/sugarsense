@@ -1,10 +1,12 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart'; // For GetX state management
 import 'package:sugarsense/models/test_result.dart';
 
+// Define a GetX controller class for managing test results
 class TestResultController extends GetxController {
   var testResult =
       TestResult(result: "Unknown", beforeMeal: 0, afterMeal: 0).obs;
 
+  // Method to measure blood sugar type based on before and after meal values
   void measureBloodSugarType(int beforeMeal, int afterMeal) {
     if (beforeMeal >= 70 && beforeMeal <= 100 && afterMeal < 140) {
       testResult.value = TestResult(

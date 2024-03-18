@@ -6,18 +6,19 @@ void main() {
   runApp(const MyApp());
 }
 
+// MyApp class represents the root widget of the application
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // GetMaterialApp widget provides the Material Design specific functionalities to the app
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false, // Disables debug banner in the app
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 231, 95, 71)),
-        useMaterial3: true,
+        useMaterial3: true, // Enables Material 3 theming
       ),
       home: const Homepage(),
     );

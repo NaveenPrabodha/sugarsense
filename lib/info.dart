@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sugarsense/category_widget.dart';
 import 'package:sugarsense/controllers/test_result_controller.dart';
 import 'package:sugarsense/input.dart';
-import 'package:sugarsense/category_widget.dart';
 
+/// InfoPage is a StatelessWidget that displays information related to glucose type and user data.
 class InfoPage extends StatelessWidget {
-  const InfoPage({super.key});
+  const InfoPage({Key? key}); // Constructor for InfoPage
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<TestResultController>();
+    final controller = Get.find<
+        TestResultController>(); // Get the TestResultController instance
 
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(5),
         child: ListView(
           children: [
+            // Display "Your Glucose Type" section
             Padding(
               padding: const EdgeInsets.only(
                 top: 55,
@@ -28,6 +31,7 @@ class InfoPage extends StatelessWidget {
                       .headlineSmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
             ),
+            // Observe the test result and display category widget based on the result
             Obx(() {
               switch (controller.testResult.value.result) {
                 case "Normal":
@@ -80,6 +84,7 @@ class InfoPage extends StatelessWidget {
                   return const Text('No widget available');
               }
             }),
+            // Display user data section
             Padding(
               padding: const EdgeInsets.all(15),
               child: Column(
@@ -107,6 +112,7 @@ class InfoPage extends StatelessWidget {
                 ],
               ),
             ),
+            // Display "Measure Another" button
             Padding(
               padding: const EdgeInsets.only(
                   left: 15, right: 15, top: 15, bottom: 15),
@@ -121,6 +127,7 @@ class InfoPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            // Display additional information and image
             Padding(
               padding: const EdgeInsets.only(
                 left: 15,
@@ -142,6 +149,7 @@ class InfoPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
+            // Display blood sugar level chart in a table
             Table(
               border: TableBorder.all(),
               children: const [
